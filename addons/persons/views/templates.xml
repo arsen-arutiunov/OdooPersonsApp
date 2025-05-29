@@ -1,0 +1,55 @@
+<odoo>
+  <template id="persons_template" name="Persons List">
+    <t t-call="website.layout">
+      <div class="container mt16 mb16">
+        <h1>Останні особи</h1>
+        <div class="row">
+          <t t-foreach="persons" t-as="person">
+            <div class="col-md-4">
+              <div class="card p-3 mb-3">
+                <h4><t t-esc="person.full_name"/></h4>
+                <p><strong>Стать:</strong> <t t-esc="person.sex or 'Не вказано'"/></p>
+                <p><strong>Вік:</strong> <t t-esc="person.age or '—'"/></p>
+                <p><strong>Компанія:</strong> <t t-esc="person.company_id.name or '—'"/></p>
+              </div>
+            </div>
+          </t>
+        </div>
+        <a href="/persons/add" class="btn btn-primary">Додати нову особу</a>
+      </div>
+    </t>
+  </template>
+
+  <template id="person_form_template" name="Add Person Form">
+    <t t-call="website.layout">
+      <div class="container mt16 mb16">
+        <h1>Додати нову особу</h1>
+        <form action="/persons/add" method="post" class="form">
+          <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+          <div class="form-group">
+            <label>Ім'я</label>
+            <input type="text" name="first_name" required="required" class="form-control"/>
+          </div>
+          <div class="form-group">
+            <label>Прізвище</label>
+            <input type="text" name="last_name" required="required" class="form-control"/>
+          </div>
+          <div class="form-group">
+            <label>Дата народження</label>
+            <input type="date" name="birthday" class="form-control"/>
+          </div>
+          <div class="form-group">
+            <label>Стать</label>
+            <select name="sex" class="form-control">
+              <option value="">Не вказано</option>
+              <option value="male">Чоловіча</option>
+              <option value="female">Жіноча</option>
+              <option value="non_binary">Інша</option>
+            </select>
+          </div>
+          <button type="submit" name="submit" class="btn btn-success mt16">Додати</button>
+        </form>
+      </div>
+    </t>
+  </template>
+</odoo>
